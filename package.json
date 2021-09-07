@@ -1,0 +1,23 @@
+{
+    "name": "testApp",
+    "version": "1.0.0",
+    "description": "react test app with MERN.",
+    "main": "index.js",
+    "scripts": {
+        "start": "NODE_ENV=development ./node_modules/.bin/netlify-lambda serve server",
+        "build": "NODE_ENV=production ./node_modules/.bin/netlify-lambda build server"
+    },
+    "author": "Mahesh Vora",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "concurrently": "^5.2.0",
+        "express": "^4.17.1",
+        "mongoose": "^5.9.12",
+        "netlify-lambda": "^2.0.14",
+        "serverless-http": "^2.7.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.3"
+    }
+}
