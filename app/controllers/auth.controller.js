@@ -39,58 +39,56 @@ exports.signup = async (req, res) => {
                 address: req.body.societyAddress,
                 isEmailConfirmed: true,
             });
-        }
-        if (docSociety) {
-            const user = new User({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                mobile: req.body.mobile,
-                societyId: docSociety._id,
-                flatId: req.body?.flatId,
-                role: req.body.role,
-                password: bcrypt.hashSync(req.body.password, 8),
-                isConfirmed: true,
-                isActive: true,
-            });
-
-            user.save(async (err, user) => {
-                if (err) {
-                    res.status(500).send({ message1: err });
-                    return;
-                }
-                if (req.body.role === "admin") {
-                    const update = await updateAdminInSociety(
-                        docSociety._id,
-                        user
-                    );
-                }
-                const emailBody = await EmailController.getHtml("default", {
-                    body: "Thank you for joining the MySociety. Now you can access the MySociety dashboard and involve in day to day society activity.",
-                });
-                const mailOption = {
-                    from: '"MySociety " <team.ninja.alpha7@gmail.com>', // sender address
-                    to: req.body.email, // list of receivers
-                    subject: "Welcome to MySociety", // Subject line
-                    html: emailBody, // html body
-                };
-                const sendMail = await EmailController.sendEmail(mailOption);
-                res.status(200).send({
-                    message: "User register successfully.",
-                    sendMail: sendMail,
+            if (!docSociety) {
+                res.status(500).send({
+                    message: "Something is wrong please try again.",
+                    error: "Can't able to create society.",
                 });
                 return;
+            }
+        }
+
+        const user = new User({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            mobile: req.body.mobile,
+            societyId:
+                req.body.role === "admin" ? docSociety._id : req.body.societyId,
+            flatId: req.body?.flatId,
+            role: req.body.role,
+            password: bcrypt.hashSync(req.body.password, 8),
+            isConfirmed: true,
+            isActive: true,
+        });
+
+        user.save(async (err, user) => {
+            if (err) {
+                res.status(500).send({ message1: err });
+                return;
+            }
+            if (req.body.role === "admin") {
+                const update = await updateAdminInSociety(docSociety._id, user);
+            }
+            const emailBody = await EmailController.getHtml("default", {
+                body: "Thank you for joining the MySociety. Now you can access the MySociety dashboard and involve in day to day society activity.",
             });
-        } else {
-            res.status(500).send({
-                message: "Something is wrong please try again2.",
-                error: "Can't able to create society.",
+            const mailOption = {
+                from: '"MySociety " <team.ninja.alpha7@gmail.com>', // sender address
+                to: req.body.email, // list of receivers
+                subject: "Welcome to MySociety", // Subject line
+                html: emailBody, // html body
+            };
+            const sendMail = await EmailController.sendEmail(mailOption);
+            res.status(200).send({
+                message: "User register successfully.",
+                sendMail: sendMail,
             });
             return;
-        }
+        });
     } catch (err) {
         res.status(500).send({
-            message: "Something is wrong please try again3.",
+            message: "Something is wrong please try again.",
         });
         return;
     }
