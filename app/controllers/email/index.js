@@ -29,18 +29,17 @@ const EmailController = {
             };
         }
     },
-    sendEmail: (emailBody) => {
+    sendEmail: (mailOption) => {
         var nodemailer = require("nodemailer");
         try {
             return new Promise((resolve, reject) => {
                 const transporter = nodemailer.createTransport({
-                    host: "smtp.ethereal.email",
+                    host: "smtp.gmail.com",
                     port: 587,
                     auth: {
-                        user: "aiden.ankunding95@ethereal.email",
-                        pass: "BnGSXMaGw3uPkrmQrq",
+                        user: process.env.SMTP_USER,
+                        pass: process.env.SMTP_PASS,
                     },
-                    connectionTimeout: 200,
                     logger: true,
                 });
 
@@ -53,24 +52,15 @@ const EmailController = {
                 });
                 let resp = false;
 
-                transporter.sendMail(
-                    {
-                        from: '"Fred Foo" <foo@example.com>', // sender address
-                        to: "bar@example.com, baz@example.com", // list of receivers
-                        subject: "Hello ✔", // Subject line
-                        text: "Hello world?", // plain text body
-                        html: emailBody, // html body
-                    },
-                    function (error, info) {
-                        if (error) {
-                            console.log("error is " + error);
-                            resolve(false); // or use rejcet(false) but then you will have to handle errors
-                        } else {
-                            console.log("Email sent: " + info.response);
-                            resolve(true);
-                        }
+                transporter.sendMail(mailOption, function (error, info) {
+                    if (error) {
+                        console.log("error is " + error);
+                        resolve(false); // or use rejcet(false) but then you will have to handle errors
+                    } else {
+                        console.log("Email sent: " + info.response);
+                        resolve(true);
                     }
-                );
+                });
             });
         } catch (error) {
             return { status: false, message: "ERROR_500", error };

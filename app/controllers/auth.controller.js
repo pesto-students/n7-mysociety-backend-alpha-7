@@ -36,7 +36,6 @@ exports.signup = async (req, res) => {
             docSociety = await createSociety({
                 name: req.body.societyName,
                 societyEmail: req.body.email,
-                societyEmail1: req.body.email,
                 address: req.body.societyAddress,
                 isEmailConfirmed: true,
             });
@@ -67,9 +66,15 @@ exports.signup = async (req, res) => {
                     );
                 }
                 const emailBody = await EmailController.getHtml("default", {
-                    body: "This is body",
+                    body: "Thank you for joining the MySociety. Now you can access the MySociety dashboard and involve in day to day society activity.",
                 });
-                const sendMail = await EmailController.sendEmail(emailBody);
+                const mailOption = {
+                    from: '"MySociety " <team.ninja.alpha7@gmail.com>', // sender address
+                    to: req.body.email, // list of receivers
+                    subject: "Welcome to MySociety", // Subject line
+                    html: emailBody, // html body
+                };
+                const sendMail = await EmailController.sendEmail(mailOption);
                 res.status(200).send({
                     message: "User register successfully.",
                     sendMail: sendMail,
