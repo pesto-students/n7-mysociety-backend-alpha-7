@@ -20,8 +20,8 @@ checkExistingUserEmail = (req, res, next) => {
             });
             return;
         }
+        next();
     });
-    next();
 };
 
 /**
@@ -29,14 +29,34 @@ checkExistingUserEmail = (req, res, next) => {
  */
 validateData = (req, res, next) => {
     const schema = Joi.object({
-        name: Joi.string().optional(),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
         email: Joi.string().min(5).max(255).required().email(),
         mobile: Joi.string()
             .length(10)
             .pattern(/^[0-9]+$/)
             .required(),
-        societyId: Joi.string().required(),
-        flatId: Joi.string().required(),
+        societyId: Joi.when("role", {
+            is: "member",
+            then: Joi.required(),
+            otherwise: Joi.string().optional(),
+        }),
+        flatId: Joi.when("role", {
+            is: "member",
+            then: Joi.required(),
+            otherwise: Joi.optional(),
+        }),
+        role: Joi.string().valid("admin", "member").required(),
+        societyName: Joi.when("role", {
+            is: "admin",
+            then: Joi.required(),
+            otherwise: Joi.optional(),
+        }),
+        societyAddress: Joi.when("role", {
+            is: "admin",
+            then: Joi.required(),
+            otherwise: Joi.optional(),
+        }),
         password: Joi.string().min(5).max(255).required(),
         confirmPassword: Joi.ref("password"),
     });
