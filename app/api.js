@@ -10,6 +10,7 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
 db.mongoose
     .connect(config.mongoURI, {
         useNewUrlParser: true,
