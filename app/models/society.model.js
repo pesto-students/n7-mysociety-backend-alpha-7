@@ -6,7 +6,6 @@ const Society = mongoose.model(
         name: String,
         societyEmail: String,
         address: String,
-        blocks: [String],
         admin: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
