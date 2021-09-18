@@ -1,9 +1,8 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const serverless = require("serverless-http");
 const cors = require("cors");
 const db = require("./models");
-const dbConfig = require("./config/db.config");
+const config = require("./config");
 const app = express();
 
 var corsOptions = {
@@ -11,9 +10,8 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 db.mongoose
-    .connect(dbConfig.mongoURI, {
+    .connect(config.mongoURI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
