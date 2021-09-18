@@ -24,13 +24,7 @@ verifyToken = (req, res, next) => {
     });
 };
 
-test = (req, res, next) => {
-    console.log("test is run");
-    next();
-};
-
 const authJwt = {
     verifyToken,
-    test,
 };
 module.exports = authJwt;

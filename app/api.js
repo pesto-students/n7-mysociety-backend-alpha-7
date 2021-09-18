@@ -38,12 +38,17 @@ app.get("/.netlify/functions/api/test", (req, res) => {
 
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
-
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+    // return data for 404
+    res.status(404).send({ message: "Something went wrong! Error: 404" });
+});
+/*
 // set port, listen for requests
 const PORT = process.env.PORT || 9005;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
-});
+});*/
 
 module.exports = app;
 module.exports.handler = serverless(app);

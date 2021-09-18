@@ -50,7 +50,6 @@ const EmailController = {
                         console.log("Server is ready to take our messages");
                     }
                 });
-                let resp = false;
 
                 transporter.sendMail(mailOption, function (error, info) {
                     if (error) {

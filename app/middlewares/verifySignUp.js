@@ -41,7 +41,7 @@ validateData = (req, res, next) => {
             then: Joi.required(),
             otherwise: Joi.string().optional(),
         }),
-        flatId: Joi.when("role", {
+        flatNo: Joi.when("role", {
             is: "member",
             then: Joi.required(),
             otherwise: Joi.optional(),

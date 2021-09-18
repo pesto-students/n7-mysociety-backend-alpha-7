@@ -11,7 +11,7 @@ const User = mongoose.model(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Society",
         },
-        flatId: String,
+        flatNo: String,
         role: String,
         password: String,
         isConfirmed: Boolean,

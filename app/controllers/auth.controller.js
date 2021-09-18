@@ -7,6 +7,7 @@ const User = db.user;
 const Society = db.society;
 const { authJwt } = require("../middlewares");
 const EmailController = require("./email");
+
 const createSociety = function (req) {
     try {
         return Society.create(req).then((docSociety) => {
@@ -29,14 +30,37 @@ const updateAdminInSociety = function (societyId, user) {
         return false;
     }
 };
+
+const getSociety = function (user) {
+    try {
+        return Society.findById(user.societyId).then((docSociety) => {
+            console.log("\n>> Created Society:\n", docSociety);
+            return docSociety;
+        });
+    } catch (err) {
+        return false;
+    }
+};
 exports.signup = async (req, res) => {
     try {
+        const {
+            firstName,
+            lastName,
+            email,
+            mobile,
+            societyId,
+            role,
+            societyName,
+            societyAddress,
+            password,
+            flatNo,
+        } = req.body;
         var docSociety;
-        if (req.body.role === "admin") {
+        if (role === "admin") {
             docSociety = await createSociety({
-                name: req.body.societyName,
-                societyEmail: req.body.email,
-                address: req.body.societyAddress,
+                name: societyName,
+                societyEmail: email,
+                address: societyAddress,
                 isEmailConfirmed: true,
             });
             if (!docSociety) {
@@ -49,15 +73,14 @@ exports.signup = async (req, res) => {
         }
 
         const user = new User({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            mobile: req.body.mobile,
-            societyId:
-                req.body.role === "admin" ? docSociety._id : req.body.societyId,
-            flatId: req.body?.flatId,
-            role: req.body.role,
-            password: bcrypt.hashSync(req.body.password, 8),
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            mobile: mobile,
+            societyId: role === "admin" ? docSociety._id : societyId,
+            flatNo: flatNo,
+            role: role,
+            password: bcrypt.hashSync(password, 8),
             isConfirmed: true,
             isActive: true,
         });
@@ -67,7 +90,7 @@ exports.signup = async (req, res) => {
                 res.status(500).send({ message1: err });
                 return;
             }
-            if (req.body.role === "admin") {
+            if (role === "admin") {
                 const update = await updateAdminInSociety(docSociety._id, user);
             }
             const emailBody = await EmailController.getHtml("default", {
@@ -75,7 +98,7 @@ exports.signup = async (req, res) => {
             });
             const mailOption = {
                 from: '"MySociety " <team.ninja.alpha7@gmail.com>', // sender address
-                to: req.body.email, // list of receivers
+                to: email, // list of receivers
                 subject: "Welcome to MySociety", // Subject line
                 html: emailBody, // html body
             };
@@ -94,46 +117,76 @@ exports.signup = async (req, res) => {
     }
 };
 
-exports.signin = (req, res) => {
-    User.findOne({
-        email: req.body.email,
-    }).exec((err, user) => {
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
-        }
+exports.signin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        User.findOne({
+            email: email,
+        }).exec(async (err, user) => {
+            if (err) {
+                res.status(500).send({ message: err });
+                return;
+            }
 
-        if (!user) {
-            return res.status(404).send({ message: "User Not found." });
-        }
+            if (!user) {
+                return res.status(404).send({ message: "User Not found." });
+            }
+            var passwordIsValid = bcrypt.compareSync(password, user.password);
 
-        var passwordIsValid = bcrypt.compareSync(
-            req.body.password,
-            user.password
-        );
+            if (!passwordIsValid) {
+                return res.status(401).send({
+                    message: "Invalid Password!",
+                });
+            }
 
-        if (!passwordIsValid) {
-            return res.status(401).send({
-                message: "Invalid Password!",
+            if (!user?.isConfirmed) {
+                return res.status(403).send({
+                    message:
+                        "You are not verified yet by society admin. Contact society admin for more details.",
+                });
+            } else if (!user?.isActive) {
+                return res.status(403).send({
+                    message:
+                        "You account is inactive. Contact society admin for more details.",
+                });
+            }
+
+            var token = jwt.sign({ id: user._id }, config.secret, {
+                expiresIn: 86400, // 24 hours
             });
-        }
 
-        var token = jwt.sign({ id: user.id }, config.secret, {
-            expiresIn: 86400, // 24 hours
+            res.header("x-auth-token", token);
+            const userData = _.pick(user, [
+                "_id",
+                "firstName",
+                "lastName",
+                "email",
+                "gender",
+                "profilePic",
+                "role",
+            ]);
+            const societyData = await getSociety(user);
+            if (!societyData) {
+                res.status(403).send({
+                    message: "Society data not found.",
+                    error: err,
+                });
+                return;
+            }
+            userData.society = _.pick(societyData, [
+                "_id",
+                "name",
+                "societyEmail",
+                "address",
+            ]);
+            res.status(200).send(userData);
+            return;
         });
-
-        res.header("x-auth-token", token);
-        const userDate = _.pick(user, [
-            "_id",
-            "firstName",
-            "lastName",
-            "email",
-            "societyName",
-            "societyAddress",
-            "gender",
-            "profilePic",
-            "role",
-        ]);
-        res.status(200).send(userDate);
-    });
+    } catch (err) {
+        res.status(500).send({
+            message: "Something is wrong please try again.",
+            error: err,
+        });
+        return;
+    }
 };
