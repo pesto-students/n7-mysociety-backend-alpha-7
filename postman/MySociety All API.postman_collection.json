@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\":\"Mahesh\",\n    \"lastName\":\"Vora\",\n    \"email\":\"maheshvorahelp+2@gmail.com\",\n    \"societyId\": \"soid\",\n    \"role\":\"admin\",\n    \"societyName\":\"society 2\",\n    \"societyAddress\":\"society address 2\",\n    \"password\":\"test3434\",\n    \"confirmPassword\": \"test3434\"\n}",
+							"raw": "{\n    \"firstName\":\"Mahesh\",\n    \"lastName\":\"Vora\",\n    \"email\":\"maheshvorahelp@gmail.com\",\n    \"societyId\": \"soid\",\n    \"role\":\"admin\",\n    \"societyName\":\"society 2\",\n    \"societyAddress\":\"society address 2\",\n    \"password\":\"test3434\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -69,7 +69,37 @@
 					"response": []
 				},
 				{
-					"name": "Login Member/Admin",
+					"name": "Login Member",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"team.ninja.alpha@gmail.com\",\n    \"password\":\"test3434\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/auth/signin",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Admin",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -279,6 +309,119 @@
 								"functions",
 								"api",
 								"announcement"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Complaint",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDZmYTU5YTc5ZDViNDM2YTdmYzQwMSIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE2MzIwNjI4MDEsImV4cCI6MTYzMjE0OTIwMX0.kIE72iZVlBARRcphEOv8LVju5ZW2ahlZEK_e3Zj2FTA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Complaint title3\",\n    \"desc\": \"Complaint Description3\",\n    \"status\": \"Pending\",\n    \"societyId\": \"{{societyID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/complaint",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"complaint"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDU4NmE0MmY5OTIxMTcwMjYxZWQ0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzMjA2ODI4NSwiZXhwIjoxNjMyMTU0Njg1fQ.SjDlQG7lIGufo_9_5rlh7UXzpVyOjl1qtaQa8_ceVaQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_id\": \"614753c1c15b176e206a28bc\",\n    \"title\": \"Complaint title1\",\n    \"desc\": \"Complaint Description1\",\n    \"status\": \"Rejected\",\n    \"comment\": \"This the the test comment8.\",\n    \"societyId\": \"{{societyID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/complaint",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"complaint"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDZmYTU5YTc5ZDViNDM2YTdmYzQwMSIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE2MzIwNjI4MDEsImV4cCI6MTYzMjE0OTIwMX0.kIE72iZVlBARRcphEOv8LVju5ZW2ahlZEK_e3Zj2FTA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"societyId\": \"{{societyID}}\",\n    \"limit\": 3,\n    \"page\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/complaint",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"complaint"
 							]
 						}
 					},
