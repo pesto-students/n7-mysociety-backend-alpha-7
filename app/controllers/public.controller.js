@@ -1,24 +1,25 @@
 const db = require("../models");
 const Society = db.society;
+const { PUBLIC, COMMON } = require("../utils/constants");
 
 exports.getAllSociety = async (req, res) => {
     try {
         const findResult = await Society.find({}, { name: 1 });
         if (findResult) {
             res.status(200).send({
-                message: "Society Data.",
+                message: PUBLIC.ALL_SOCIETY_DATA,
                 results: findResult,
             });
             return;
         } else {
             res.status(403).send({
-                message: "Society Data not available.",
+                message: PUBLIC.SOCIETY_DATA_NOT_AVAILABLE,
             });
             return;
         }
     } catch (err) {
         res.status(500).send({
-            message: "Something is wrong please try again.",
+            message: COMMON.SOMETHING_WRONG,
         });
         return;
     }

@@ -1,3 +1,5 @@
+const config = require("../../config");
+const { EMAIL, COMMON } = require("../../utils/constants");
 const EmailController = {
     getHtml: (template, argv) => {
         const ejs = require("ejs");
@@ -12,7 +14,7 @@ const EmailController = {
                             console.log(error, "error");
                             reject({
                                 statusCode: 404,
-                                body: "Please provide a valid template name.",
+                                body: EMAIL.PROVIDE_VALID_TEMPLATE,
                                 error: error,
                             });
                         }
@@ -24,7 +26,7 @@ const EmailController = {
         } catch (error) {
             return {
                 statusCode: 500,
-                body: "Something want wrong please try again1.",
+                body: COMMON.SOMETHING_WRONG,
                 error: error,
             };
         }
@@ -37,8 +39,8 @@ const EmailController = {
                     host: "smtp.gmail.com",
                     port: 587,
                     auth: {
-                        user: process.env.SMTP_USER,
-                        pass: process.env.SMTP_PASS,
+                        user: config.SMTP_USER,
+                        pass: config.SMTP_PASS,
                     },
                     logger: true,
                 });
@@ -62,7 +64,7 @@ const EmailController = {
                 });
             });
         } catch (error) {
-            return { status: false, message: "ERROR_500", error };
+            return { status: false, message: COMMON.SOMETHING_WRONG, error };
         }
     },
 };

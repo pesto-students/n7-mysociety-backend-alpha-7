@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config");
 const db = require("../models");
+const { AUTH } = require("../utils/constants");
 const User = db.user;
 
 verifyToken = (req, res, next) => {
@@ -8,15 +9,14 @@ verifyToken = (req, res, next) => {
 
     if (!token) {
         return res.status(403).send({
-            message: "Something is wrong!",
-            error: "No token provided!",
+            message: AUTH.NO_TOKEN,
         });
     }
 
     jwt.verify(token, config.secret, (err, decoded) => {
         if (err) {
             return res.status(401).send({
-                message: "You are not authorized to use our service!!",
+                message: AUTH.NOT_AUTHORIZED,
             });
         }
         console.log("decoded", decoded);
