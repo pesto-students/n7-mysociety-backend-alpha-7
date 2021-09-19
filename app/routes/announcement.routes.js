@@ -14,11 +14,16 @@ module.exports = function (app) {
     app.put(
         "/.netlify/functions/api/announcement",
         [authJwt.verifyToken, announcement.createValidateData],
-        controller.createAnnouncement
+        controller.createUpdateAnnouncement
     );
     app.get(
         "/.netlify/functions/api/announcement",
         [authJwt.verifyToken],
         controller.getAnnouncement
+    );
+    app.delete(
+        "/.netlify/functions/api/announcement",
+        [authJwt.verifyToken, announcement.deleteValidateData],
+        controller.deleteAnnouncement
     );
 };

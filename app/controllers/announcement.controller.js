@@ -21,56 +21,12 @@ const getSocietyMembers = function (societyId) {
         return false;
     }
 };
-/*
-exports.createAnnouncement = async (req, res) => {
-    try {
-        const { userId } = req;
-        const { title, desc, societyId } = req.body;
-        const societyMembers = await getSocietyMembers(societyId);
-        console.log(societyMembers.join(","), "societyMembers");
 
-        const announcement = new Announcement({
-            title: title,
-            desc: desc,
-            societyId: societyId,
-            postedBy: userId,
-        });
-
-        announcement.save(async (err, user) => {
-            if (err) {
-                res.status(500).send({ message: err });
-                return;
-            }
-
-            const emailBody = await EmailController.getHtml("default", {
-                body: "New announcement is there in your society. Open MySociety app for more details.",
-            });
-            const mailOption = {
-                from: '"MySociety " <team.ninja.alpha7@gmail.com>',
-                to: societyMembers.join(","),
-                subject: "New Announcement",
-                html: emailBody,
-            };
-            const sendMail = await EmailController.sendEmail(mailOption);
-            res.status(201).send({
-                message: "Announcement created successfully.",
-            });
-            return;
-        });
-    } catch (err) {
-        res.status(500).send({
-            message: "Something is wrong please try again.",
-        });
-        return;
-    }
-};
-*/
-exports.createAnnouncement = async (req, res) => {
+exports.createUpdateAnnouncement = async (req, res) => {
     try {
         const { userId } = req;
         const { _id, title, desc, societyId } = req.body;
         const societyMembers = await getSocietyMembers(societyId);
-        console.log(societyMembers.join(","), "societyMembers");
 
         if (_id) {
             const filter = _.pick(req.body, ["_id", "societyId"]);
@@ -156,7 +112,6 @@ exports.getAnnouncement = async (req, res) => {
                 });
                 return;
             }
-            console.log(result);
 
             res.status(200).send({
                 message: "All announcement.",
@@ -164,6 +119,37 @@ exports.getAnnouncement = async (req, res) => {
             });
             return;
         });
+    } catch (err) {
+        res.status(500).send({
+            message: "Something is wrong please try again.",
+        });
+        return;
+    }
+};
+
+exports.deleteAnnouncement = async (req, res) => {
+    try {
+        const { userId } = req;
+        const { _id, societyId } = req.body;
+
+        Announcement.findOneAndDelete(
+            { _id: _id, societyId: societyId },
+            (err, result) => {
+                if (err) {
+                    res.status(500).send({
+                        message: "Something want wrong please try again.",
+                        error: err,
+                    });
+                    return;
+                }
+
+                res.status(203).send({
+                    message: "Announcement deleted successfully.",
+                    result: result,
+                });
+                return;
+            }
+        );
     } catch (err) {
         res.status(500).send({
             message: "Something is wrong please try again.",
