@@ -2,7 +2,6 @@ const config = require("../config");
 const db = require("../models");
 const _ = require("lodash");
 const Announcement = db.announcement;
-const User = db.user;
 const EmailController = require("./email");
 const utils = require("../utils/functions");
 const { ANNOUNCEMENT, COMMON } = require("../utils/constants");
@@ -64,6 +63,7 @@ exports.createUpdateAnnouncement = async (req, res) => {
                 res.status(201).send({
                     message: ANNOUNCEMENT.CREATED,
                     result: record,
+                    sendMail: sendMail,
                 });
                 return;
             });
