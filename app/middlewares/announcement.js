@@ -1,7 +1,7 @@
 const db = require("../models");
 const User = db.user;
 const Joi = require("joi");
-
+const { ANNOUNCEMENT } = require("../utils/constants");
 /**
  * Validate input data at announcement create.
  */
@@ -9,12 +9,12 @@ createValidateData = (req, res, next) => {
     const schema = Joi.object({
         _id: Joi.string().optional(),
         title: Joi.string().required().messages({
-            "any.required": "Announcement title is required!",
-            "string.empty": "Announcement title can't be empty!",
+            "any.required": ANNOUNCEMENT.TITLE_REQUIRED,
+            "string.empty": ANNOUNCEMENT.TITLE_NOT_EMPTY,
         }),
         desc: Joi.string().required().messages({
-            "any.required": "Announcement description is required!",
-            "string.empty": "Announcement description can't be empty!",
+            "any.required": ANNOUNCEMENT.DESC_REQUIRED,
+            "string.empty": ANNOUNCEMENT.DESC_NOT_EMPTY,
         }),
         societyId: Joi.string().required(),
     });

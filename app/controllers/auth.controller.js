@@ -6,6 +6,7 @@ const _ = require("lodash");
 const User = db.user;
 const Society = db.society;
 const EmailController = require("./email");
+const { AUTH, COMMON } = require("../utils/constants");
 
 const createSociety = function (req) {
     try {
@@ -64,8 +65,8 @@ exports.signup = async (req, res) => {
             });
             if (!docSociety) {
                 res.status(500).send({
-                    message: "Something is wrong please try again.",
-                    error: "Can't able to create society.",
+                    message: COMMON.SOMETHING_WRONG,
+                    error: AUTH.SIGNUP.CAN_NOT_CREATE_SOCIETY,
                 });
                 return;
             }
@@ -103,14 +104,14 @@ exports.signup = async (req, res) => {
             };
             const sendMail = await EmailController.sendEmail(mailOption);
             res.status(200).send({
-                message: "User register successfully.",
+                message: AUTH.SIGNUP.USER_REGISTERED,
                 sendMail: sendMail,
             });
             return;
         });
     } catch (err) {
         res.status(500).send({
-            message: "Something is wrong please try again.",
+            message: COMMON.SOMETHING_WRONG,
         });
         return;
     }
@@ -128,25 +129,25 @@ exports.signin = async (req, res) => {
             }
 
             if (!user) {
-                return res.status(404).send({ message: "User Not found." });
+                return res
+                    .status(404)
+                    .send({ message: AUTH.SIGNIN.USER_NOT_FOUND });
             }
             var passwordIsValid = bcrypt.compareSync(password, user.password);
 
             if (!passwordIsValid) {
                 return res.status(401).send({
-                    message: "Invalid Password!",
+                    message: AUTH.SIGNIN.INVALID_PASSWORD,
                 });
             }
 
             if (!user?.isConfirmed) {
                 return res.status(403).send({
-                    message:
-                        "You are not verified yet by society admin. Contact society admin for more details.",
+                    message: AUTH.SIGNIN.NOT_CONFIRMED,
                 });
             } else if (!user?.isActive) {
                 return res.status(403).send({
-                    message:
-                        "You account is inactive. Contact society admin for more details.",
+                    message: AUTH.SIGNIN.INACTIVE,
                 });
             }
 
@@ -171,7 +172,7 @@ exports.signin = async (req, res) => {
             const societyData = await getSociety(user);
             if (!societyData) {
                 res.status(403).send({
-                    message: "Society data not found.",
+                    message: AUTH.SIGNIN.SOCIETY_NOT_FOUND,
                     error: err,
                 });
                 return;
@@ -187,7 +188,7 @@ exports.signin = async (req, res) => {
         });
     } catch (err) {
         res.status(500).send({
-            message: "Something is wrong please try again.",
+            message: COMMON.SOMETHING_WRONG,
             error: err,
         });
         return;

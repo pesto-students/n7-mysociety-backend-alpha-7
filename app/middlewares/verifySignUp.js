@@ -1,6 +1,7 @@
 const db = require("../models");
 const User = db.user;
 const Joi = require("joi");
+const { AUTH, COMMON } = require("../utils/constants");
 /**
  * Check email is already exist or not.
  */
@@ -8,7 +9,7 @@ checkExistingUserEmail = (req, res, next) => {
     User.findOne({ email: req.body.email }).exec((err, user) => {
         if (err) {
             res.status(500).send({
-                message: "Something is wrong please try again.",
+                message: COMMON.SOMETHING_WRONG,
                 error: err,
             });
             return;
@@ -16,7 +17,7 @@ checkExistingUserEmail = (req, res, next) => {
 
         if (user) {
             res.status(400).send({
-                message: "Oops! Email is already in use!",
+                message: AUTH.SIGNUP.EMAIL_ALREADY_EXIST,
             });
             return;
         }

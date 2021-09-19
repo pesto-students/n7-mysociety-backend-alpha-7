@@ -4,7 +4,8 @@ const _ = require("lodash");
 const Announcement = db.announcement;
 const User = db.user;
 const EmailController = require("./email");
-const utils = require("../utils");
+const utils = require("../utils/functions");
+const { ANNOUNCEMENT, COMMON } = require("../utils/constants");
 
 exports.createUpdateAnnouncement = async (req, res) => {
     try {
@@ -23,14 +24,14 @@ exports.createUpdateAnnouncement = async (req, res) => {
                 (err, result) => {
                     if (err) {
                         res.status(500).send({
-                            message: "Something want wrong please try again.",
+                            message: COMMON.SOMETHING_WRONG,
                             error: err,
                         });
                         return;
                     }
 
                     res.status(203).send({
-                        message: "Announcement updated successfully.",
+                        message: ANNOUNCEMENT.UPDATED,
                         result: result,
                     });
                     return;
@@ -61,7 +62,7 @@ exports.createUpdateAnnouncement = async (req, res) => {
                 };
                 const sendMail = await EmailController.sendEmail(mailOption);
                 res.status(201).send({
-                    message: "Announcement created successfully.",
+                    message: ANNOUNCEMENT.CREATED,
                     result: record,
                 });
                 return;
@@ -69,7 +70,7 @@ exports.createUpdateAnnouncement = async (req, res) => {
         }
     } catch (err) {
         res.status(500).send({
-            message: "Something is wrong please try again.",
+            message: COMMON.SOMETHING_WRONG,
         });
         return;
     }
@@ -91,20 +92,20 @@ exports.getAnnouncement = async (req, res) => {
         Announcement.paginate(query, options, function (err, result) {
             if (err) {
                 res.status(403).send({
-                    message: "No announcement found.",
+                    message: ANNOUNCEMENT.NOT_FOUND,
                 });
                 return;
             }
 
             res.status(200).send({
-                message: "All announcement.",
+                message: ANNOUNCEMENT.ALL,
                 result: result,
             });
             return;
         });
     } catch (err) {
         res.status(500).send({
-            message: "Something is wrong please try again.",
+            message: COMMON.SOMETHING_WRONG,
         });
         return;
     }
@@ -120,14 +121,14 @@ exports.deleteAnnouncement = async (req, res) => {
             (err, result) => {
                 if (err) {
                     res.status(500).send({
-                        message: "Something want wrong please try again.",
+                        message: COMMON.SOMETHING_WRONG,
                         error: err,
                     });
                     return;
                 }
 
                 res.status(203).send({
-                    message: "Announcement deleted successfully.",
+                    message: ANNOUNCEMENT.DELETED,
                     result: result,
                 });
                 return;
@@ -135,7 +136,7 @@ exports.deleteAnnouncement = async (req, res) => {
         );
     } catch (err) {
         res.status(500).send({
-            message: "Something is wrong please try again.",
+            message: COMMON.SOMETHING_WRONG,
         });
         return;
     }
