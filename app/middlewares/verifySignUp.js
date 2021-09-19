@@ -35,7 +35,11 @@ validateData = (req, res, next) => {
         mobile: Joi.string()
             .length(10)
             .pattern(/^[0-9]+$/)
-            .required(),
+            .when("role", {
+                is: "member",
+                then: Joi.required(),
+                otherwise: Joi.string().optional(),
+            }),
         societyId: Joi.when("role", {
             is: "member",
             then: Joi.required(),
@@ -58,7 +62,6 @@ validateData = (req, res, next) => {
             otherwise: Joi.optional(),
         }),
         password: Joi.string().min(5).max(255).required(),
-        confirmPassword: Joi.ref("password"),
     });
     const { error } = schema.validate(req.body);
     if (error) {
