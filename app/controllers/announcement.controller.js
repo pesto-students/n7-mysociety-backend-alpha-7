@@ -4,29 +4,12 @@ const _ = require("lodash");
 const Announcement = db.announcement;
 const User = db.user;
 const EmailController = require("./email");
-
-const getSocietyMembers = function (societyId) {
-    try {
-        return User.find(
-            {
-                societyId: { $eq: societyId },
-                role: { $eq: "member" },
-            },
-            { email: 1, _id: 0 }
-        ).then((users) => {
-            console.log("\n>> Society users:\n", users);
-            return users.flatMap((i) => i.email);
-        });
-    } catch (err) {
-        return false;
-    }
-};
+const utils = require("../utils");
 
 exports.createUpdateAnnouncement = async (req, res) => {
     try {
         const { userId } = req;
         const { _id, title, desc, societyId } = req.body;
-        const societyMembers = await getSocietyMembers(societyId);
 
         if (_id) {
             const filter = _.pick(req.body, ["_id", "societyId"]);
@@ -66,7 +49,7 @@ exports.createUpdateAnnouncement = async (req, res) => {
                     res.status(500).send({ message: err });
                     return;
                 }
-
+                const societyMembers = await utils.getSocietyMembers(societyId);
                 const emailBody = await EmailController.getHtml("default", {
                     body: "New announcement is there in your society. Open MySociety app for more details.",
                 });
