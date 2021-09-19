@@ -5,7 +5,6 @@ var bcrypt = require("bcryptjs");
 const _ = require("lodash");
 const User = db.user;
 const Society = db.society;
-const { authJwt } = require("../middlewares");
 const EmailController = require("./email");
 
 const createSociety = function (req) {
@@ -87,7 +86,7 @@ exports.signup = async (req, res) => {
 
         user.save(async (err, user) => {
             if (err) {
-                res.status(500).send({ message1: err });
+                res.status(500).send({ message: err });
                 return;
             }
             if (role === "admin") {
@@ -151,9 +150,13 @@ exports.signin = async (req, res) => {
                 });
             }
 
-            var token = jwt.sign({ id: user._id }, config.secret, {
-                expiresIn: 86400, // 24 hours
-            });
+            var token = jwt.sign(
+                { id: user._id, role: user.role },
+                config.secret,
+                {
+                    expiresIn: 86400, // 24 hours
+                }
+            );
 
             res.header("x-auth-token", token);
             const userData = _.pick(user, [

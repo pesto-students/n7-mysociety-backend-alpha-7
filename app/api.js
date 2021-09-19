@@ -39,6 +39,7 @@ app.get("/.netlify/functions/api/test", (req, res) => {
 
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
+require("./routes/announcement.routes")(app);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
     // return data for 404

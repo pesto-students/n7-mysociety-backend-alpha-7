@@ -19,7 +19,9 @@ verifyToken = (req, res, next) => {
                 message: "You are not authorized to use our service!!",
             });
         }
+        console.log("decoded", decoded);
         req.userId = decoded.id;
+        req.userRole = decoded.role;
         next();
     });
 };
