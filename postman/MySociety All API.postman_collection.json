@@ -45,7 +45,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\":\"Team\",\n    \"lastName\":\"Ninja\",\n    \"email\":\"team.ninja.alpha@gmail.com\",\n    \"mobile\": \"1231231231\",\n    \"societyId\": \"{{societyID}}\",\n    \"flatNo\": \"flno\",\n    \"password\":\"test3434\",\n    \"confirmPassword\": \"test3434\",\n    \"role\":\"member\"\n}",
+							"raw": "{\n    \"firstName\":\"Team\",\n    \"lastName\":\"Ninja\",\n    \"email\":\"complainttest1@gmail.com\",\n    \"mobile\": \"1231231231\",\n    \"societyId\": \"{{societyID}}\",\n    \"flatNo\": \"flno\",\n    \"password\":\"test3434\",\n    \"role\":\"member\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -75,7 +75,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\":\"team.ninja.alpha@gmail.com\",\n    \"password\":\"test3434\"\n}",
+							"raw": "{\n    \"email\":\"complainttest1@gmail.com\",\n    \"password\":\"test3434\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -286,7 +286,7 @@
 						"header": [
 							{
 								"key": "x-access-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDU4NmE0MmY5OTIxMTcwMjYxZWQ0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzMTk3MDk2OCwiZXhwIjoxNjMyMDU3MzY4fQ.aqUgTxhBpcVAIUxHErUllyPKnRjRsKkzXLk3iXQ7fFc",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDU4NmE0MmY5OTIxMTcwMjYxZWQ0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzMjE2NDAyNCwiZXhwIjoxNjMyMjUwNDI0fQ.Rs9KeyJQ6jYeCEnvVhQD7moABhX9H8VupkFFHupmbTc",
 								"type": "text"
 							}
 						],
@@ -300,7 +300,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/.netlify/functions/api/announcement",
+							"raw": "{{BASE_URL}}/.netlify/functions/api/announcement?societyId={{societyID}}&limit=2&page=1&filterType=latest",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -309,6 +309,24 @@
 								"functions",
 								"api",
 								"announcement"
+							],
+							"query": [
+								{
+									"key": "societyId",
+									"value": "{{societyID}}"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "filterType",
+									"value": "latest"
+								}
 							]
 						}
 					},
@@ -326,7 +344,7 @@
 						"header": [
 							{
 								"key": "x-access-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDZmYTU5YTc5ZDViNDM2YTdmYzQwMSIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE2MzIwNjI4MDEsImV4cCI6MTYzMjE0OTIwMX0.kIE72iZVlBARRcphEOv8LVju5ZW2ahlZEK_e3Zj2FTA",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDliNjZmMjEzZGJiYTc4NGVhZjg4MyIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE2MzIyMjA3OTYsImV4cCI6MTYzMjMwNzE5Nn0.QiQhTgGxZa6-i-JeSqhVaDx2zSQv569OcrRVYWTQWUk",
 								"type": "text"
 							}
 						],
@@ -399,13 +417,13 @@
 						"header": [
 							{
 								"key": "x-access-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDZmYTU5YTc5ZDViNDM2YTdmYzQwMSIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE2MzIwNjI4MDEsImV4cCI6MTYzMjE0OTIwMX0.kIE72iZVlBARRcphEOv8LVju5ZW2ahlZEK_e3Zj2FTA",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDU4NmE0MmY5OTIxMTcwMjYxZWQ0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzMjIyMDkyNywiZXhwIjoxNjMyMzA3MzI3fQ.Z4yGXCMm6fKXn7ju7CVISAnilShq28BqXNkSrZk_VOo",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"societyId\": \"{{societyID}}\",\n    \"limit\": 3,\n    \"page\": 1\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -413,7 +431,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/.netlify/functions/api/complaint",
+							"raw": "{{BASE_URL}}/.netlify/functions/api/complaint?societyId={{societyID}}&limit=3&page=1&status=Pending",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -422,6 +440,24 @@
 								"functions",
 								"api",
 								"complaint"
+							],
+							"query": [
+								{
+									"key": "societyId",
+									"value": "{{societyID}}"
+								},
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "status",
+									"value": "Pending"
+								}
 							]
 						}
 					},
