@@ -99,7 +99,8 @@ exports.createUpdateComplaint = async (req, res) => {
 
 exports.getComplaint = async (req, res) => {
     try {
-        const { societyId, page = 1, limit = 10 } = req.body;
+        const { userId, userRole } = req;
+        const { societyId, page = 1, limit = 10, status } = req.query;
         const options = {
             page: page,
             limit: limit,
@@ -108,6 +109,12 @@ exports.getComplaint = async (req, res) => {
         let query = {};
         if (societyId) {
             query.societyId = societyId;
+        }
+        if (status) {
+            query.status = { $eq: status };
+        }
+        if (userRole === "member") {
+            query.postedBy = { $eq: userId };
         }
 
         Complaint.paginate(query, options, function (err, result) {

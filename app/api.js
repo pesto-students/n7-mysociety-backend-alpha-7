@@ -8,7 +8,8 @@ const config = require("./config");
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:8081",
+    origin: "http://localhost:3000",
+    exposedHeaders: ["Authorization", "x-auth-token"],
 };
 
 app.use(cors(corsOptions));

@@ -1,4 +1,10 @@
 module.exports = {
+    SETTINGS: {
+        ANNOUNCEMENT: {
+            LATEST_DAYS: 7,
+            PASTS_DAYS: 7,
+        },
+    },
     AUTH: {
         SIGNUP: {
             CAN_NOT_CREATE_SOCIETY: "Can't able to create society.",
