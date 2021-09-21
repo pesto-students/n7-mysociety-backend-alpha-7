@@ -4,7 +4,7 @@ const _ = require("lodash");
 const Complaint = db.complaint;
 const EmailController = require("./email");
 const utils = require("../utils/functions");
-const { COMMON, COMPLAINT } = require("../utils/constants");
+const { COMMON, COMPLAINT, SETTINGS } = require("../utils/constants");
 
 exports.createUpdateComplaint = async (req, res) => {
     try {
@@ -100,7 +100,12 @@ exports.createUpdateComplaint = async (req, res) => {
 exports.getComplaint = async (req, res) => {
     try {
         const { userId, userRole } = req;
-        const { societyId, page = 1, limit = 10, status } = req.query;
+        const {
+            societyId,
+            page = 1,
+            limit = SETTINGS.DEFAULT_PAGE_LIMIT,
+            status,
+        } = req.query;
         const options = {
             page: page,
             limit: limit,

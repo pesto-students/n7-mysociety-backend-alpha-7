@@ -4,6 +4,7 @@ module.exports = {
             LATEST_DAYS: 7,
             PASTS_DAYS: 7,
         },
+        DEFAULT_PAGE_LIMIT: 10,
     },
     AUTH: {
         SIGNUP: {

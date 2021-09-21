@@ -78,7 +78,12 @@ exports.createUpdateAnnouncement = async (req, res) => {
 
 exports.getAnnouncement = async (req, res) => {
     try {
-        const { societyId, page = 1, limit = 10, filterType } = req.query;
+        const {
+            societyId,
+            page = 1,
+            limit = SETTINGS.DEFAULT_PAGE_LIMIT,
+            filterType,
+        } = req.query;
         const options = {
             page: page,
             limit: limit,
