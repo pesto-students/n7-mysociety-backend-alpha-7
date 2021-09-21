@@ -8,7 +8,8 @@ const config = require("./config");
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:8081",
+    origin: "http://localhost:3000",
+    exposedHeaders: ["Authorization", "x-auth-token"],
 };
 
 app.use(cors(corsOptions));
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
 require("./routes/announcement.routes")(app);
+require("./routes/complaint.routes")(app);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
     // return data for 404

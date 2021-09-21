@@ -2,10 +2,9 @@ const config = require("../config");
 const db = require("../models");
 const _ = require("lodash");
 const Announcement = db.announcement;
-const User = db.user;
 const EmailController = require("./email");
 const utils = require("../utils/functions");
-const { ANNOUNCEMENT, COMMON } = require("../utils/constants");
+const { ANNOUNCEMENT, COMMON, SETTINGS } = require("../utils/constants");
 
 exports.createUpdateAnnouncement = async (req, res) => {
     try {
@@ -64,6 +63,7 @@ exports.createUpdateAnnouncement = async (req, res) => {
                 res.status(201).send({
                     message: ANNOUNCEMENT.CREATED,
                     result: record,
+                    sendMail: sendMail,
                 });
                 return;
             });
@@ -78,7 +78,12 @@ exports.createUpdateAnnouncement = async (req, res) => {
 
 exports.getAnnouncement = async (req, res) => {
     try {
-        const { societyId, page = 1, limit = 10 } = req.body;
+        const {
+            societyId,
+            page = 1,
+            limit = SETTINGS.DEFAULT_PAGE_LIMIT,
+            filterType,
+        } = req.query;
         const options = {
             page: page,
             limit: limit,
@@ -87,6 +92,17 @@ exports.getAnnouncement = async (req, res) => {
         let query = {};
         if (societyId) {
             query.societyId = societyId;
+        }
+        if (filterType) {
+            let latestDate = new Date();
+            latestDate.setDate(
+                latestDate.getDate() - SETTINGS.ANNOUNCEMENT.LATEST_DAYS
+            );
+            if (filterType === "latest") {
+                query.created_at = { $gte: latestDate.getTime() };
+            } else if (filterType === "pasts") {
+                query.created_at = { $lte: latestDate.getTime() };
+            }
         }
 
         Announcement.paginate(query, options, function (err, result) {
