@@ -13,6 +13,7 @@ const complaintSchema = new mongoose.Schema(
         title: String,
         desc: String,
         status: String,
+        priority: String,
         comments: [commentSchema],
         societyId: {
             type: mongoose.Schema.Types.ObjectId,

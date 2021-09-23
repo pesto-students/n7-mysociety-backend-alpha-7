@@ -1,8 +1,8 @@
 module.exports = {
     SETTINGS: {
         ANNOUNCEMENT: {
-            LATEST_DAYS: 7,
-            PASTS_DAYS: 7,
+            LATEST_DAYS: 5,
+            PASTS_DAYS: 5,
         },
         DEFAULT_PAGE_LIMIT: 10,
     },
@@ -55,5 +55,6 @@ module.exports = {
         DELETED: "Complaint deleted successfully.",
         ALL: "All complaints.",
         NOT_FOUND: "No complaint found.",
+        SOMETHING_MISSING: "Something is missing please try again.",
     },
 };
