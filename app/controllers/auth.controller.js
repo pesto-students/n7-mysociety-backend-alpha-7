@@ -23,8 +23,8 @@ const updateAdminInSociety = function (societyId, user) {
     try {
         return Society.findByIdAndUpdate(
             societyId,
-            { $push: { admin: user._id } },
-            { new: true, useFindAndModify: false }
+            { admin: user._id },
+            { new: false, useFindAndModify: true }
         );
     } catch (err) {
         return false;
@@ -34,7 +34,7 @@ const updateAdminInSociety = function (societyId, user) {
 const getSociety = function (user) {
     try {
         return Society.findById(user.societyId).then((docSociety) => {
-            console.log("\n>> Created Society:\n", docSociety);
+            console.log("\n>> Get Society:\n", docSociety);
             return docSociety;
         });
     } catch (err) {

@@ -46,9 +46,9 @@ deleteValidateData = (req, res, next) => {
     next();
 };
 
-const verifySignUp = {
+const announcement = {
     createValidateData,
     deleteValidateData,
 };
 
-module.exports = verifySignUp;
+module.exports = announcement;
