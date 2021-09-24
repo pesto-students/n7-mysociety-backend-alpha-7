@@ -9,12 +9,13 @@ const { COMMON, COMPLAINT, SETTINGS } = require("../utils/constants");
 exports.createUpdateComplaint = async (req, res) => {
     try {
         const { userId, userRole } = req;
-        const { _id, title, desc, societyId, status, comment } = req.body;
+        const { _id, title, desc, societyId, status, comment, priority } =
+            req.body;
 
         if (_id) {
             const filter = _.pick(req.body, ["_id", "societyId"]);
-            let update = {};
-            if (userRole === "admin") {
+            let update = null;
+            if (userRole === "admin" || comment || status) {
                 if (comment && status) {
                     update = {
                         status: status,
@@ -30,35 +31,43 @@ exports.createUpdateComplaint = async (req, res) => {
                     };
                 }
             } else if (userRole === "member") {
-                update = _.pick(req.body, ["title", "desc"]);
+                update = _.pick(req.body, ["title", "desc", "priority"]);
             }
-            Complaint.findOneAndUpdate(
-                filter,
-                update,
-                {
-                    new: true,
-                },
-                (err, result) => {
-                    if (err) {
-                        res.status(500).send({
-                            message: COMMON.SOMETHING_WRONG,
-                            error: err,
+            if (update !== null) {
+                Complaint.findOneAndUpdate(
+                    filter,
+                    update,
+                    {
+                        new: true,
+                    },
+                    (err, result) => {
+                        if (err) {
+                            res.status(500).send({
+                                message: COMMON.SOMETHING_WRONG,
+                                error: err,
+                            });
+                            return;
+                        }
+
+                        res.status(203).send({
+                            message: COMPLAINT.UPDATED,
+                            result: result,
                         });
                         return;
                     }
-
-                    res.status(203).send({
-                        message: COMPLAINT.UPDATED,
-                        result: result,
-                    });
-                    return;
-                }
-            );
+                );
+            } else {
+                res.status(400).send({
+                    message: COMPLAINT.SOMETHING_MISSING,
+                });
+                return;
+            }
         } else {
             const complaint = new Complaint({
                 title: title,
                 desc: desc,
-                status: status,
+                status: status ? status : "Pending",
+                priority: priority ? priority : "Low",
                 societyId: societyId,
                 postedBy: userId,
             });

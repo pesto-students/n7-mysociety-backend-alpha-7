@@ -18,6 +18,7 @@ createValidateData = (req, res, next) => {
         }),
         societyId: Joi.string().required(),
         status: Joi.string().valid("Pending", "Resolved", "Reject").optional(),
+        priority: Joi.string().valid("High", "Medium", "Low").optional(),
         comment: Joi.string().optional(),
     });
     const { error } = schema.validate(req.body);
