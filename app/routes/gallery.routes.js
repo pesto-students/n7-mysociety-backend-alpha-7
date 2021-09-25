@@ -1,5 +1,5 @@
 const { authJwt } = require("../middlewares");
-const { gallery } = require("../middlewares");
+const { gallery, upload } = require("../middlewares");
 const controller = require("../controllers/gallery.controller");
 
 module.exports = function (app) {

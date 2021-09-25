@@ -4,6 +4,7 @@ const announcement = require("./announcement");
 const event = require("./events");
 const complaint = require("./complaint");
 const gallery = require("./gallery");
+const upload = require("./upload");
 module.exports = {
   authJwt,
   verifySignUp,
@@ -11,4 +12,5 @@ module.exports = {
   complaint,
   event,
   gallery,
+  upload,
 };
