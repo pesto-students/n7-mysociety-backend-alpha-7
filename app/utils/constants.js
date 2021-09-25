@@ -130,4 +130,14 @@ module.exports = {
       NOT_FOUND: "No gallery found.",
     },
   },
+
+  FAQS: {
+    RESPONSE: {
+      ALL: "All Faq's",
+      NOT_FOUNT: "No faq's found",
+      UPDATED: "FAQ Updated successfully.",
+      CREATED: "FAQ Created successfully.",
+      DELETED: "FAQ Deleted successfully.",
+    },
+  },
 };

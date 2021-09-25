@@ -11,4 +11,5 @@ db.announcement = require("./announcement.model");
 db.event = require("./event.model");
 db.complaint = require("./complaint.model");
 db.gallery = require("./gallery.model");
+db.faqs = require("./faq.model");
 module.exports = db;
