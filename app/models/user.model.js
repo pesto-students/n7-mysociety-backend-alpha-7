@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
-
-const User = mongoose.model(
-    "User",
-    new mongoose.Schema({
+const mongoosePaginate = require("mongoose-paginate-v2");
+const schemaOptions = {
+    timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
+};
+const userSchema = new mongoose.Schema(
+    {
         firstName: String,
         lastName: String,
         email: String,
@@ -16,7 +18,10 @@ const User = mongoose.model(
         password: String,
         isConfirmed: Boolean,
         isActive: Boolean,
-    })
+    },
+    schemaOptions
 );
 
+userSchema.plugin(mongoosePaginate);
+const User = mongoose.model("User", userSchema);
 module.exports = User;

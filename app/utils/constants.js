@@ -109,6 +109,13 @@ module.exports = {
       SOMETHING_MISSING: "Something is missing please try again.",
     },
   },
+  USER: {
+    ALL_FOUND: "All users.",
+    FOUND: "Users found.",
+    NOT_FOUND: "No user found.",
+    UPDATED: "User updated successfully.",
+    SOMETHING_MISSING: "Something is missing please try again.",
+  },
   GALLERY: {
     VALIDATION: {
       CATEGORY: "Category is required",
