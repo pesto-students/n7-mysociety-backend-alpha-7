@@ -109,4 +109,18 @@ module.exports = {
       SOMETHING_MISSING: "Something is missing please try again.",
     },
   },
+  GALLERY: {
+    VALIDATION: {
+      CATEGORY: "Category is required",
+      IMAGES: "Images are required",
+      SOCIETY_ID: "Society id is required",
+    },
+    RESPONSE: {
+      UPDATED: "Gallery updated successfully.",
+      CREATED: "Gallery created successfully.",
+      DELETED: "Gallery deleted successfully.",
+      ALL: "All gallery.",
+      NOT_FOUND: "No gallery found.",
+    },
+  },
 };

@@ -10,4 +10,5 @@ db.society = require("./society.model");
 db.announcement = require("./announcement.model");
 db.event = require("./event.model");
 db.complaint = require("./complaint.model");
+db.gallery = require("./gallery.model");
 module.exports = db;
