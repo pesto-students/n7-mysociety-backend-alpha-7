@@ -81,7 +81,7 @@ exports.signup = async (req, res) => {
             flatNo: flatNo,
             role: role,
             password: bcrypt.hashSync(password, 8),
-            isConfirmed: true,
+            isConfirmed: false,
             isActive: true,
         });
 
@@ -166,6 +166,8 @@ exports.signin = async (req, res) => {
                 "lastName",
                 "email",
                 "gender",
+                "mobile",
+                "flatNo",
                 "profilePic",
                 "role",
             ]);
