@@ -1,5 +1,6 @@
 const db = require("../models");
 const User = db.user;
+const Society = db.society;
 
 module.exports = {
     getSocietyMembers: (societyId) => {
@@ -41,6 +42,23 @@ module.exports = {
                     })
                     .catch((err) => {
                         console.log("No admin found: error is " + err);
+                        resolve(false);
+                    });
+            });
+        } catch (err) {
+            return false;
+        }
+    },
+    getSociety: (user) => {
+        try {
+            return new Promise((resolve, reject) => {
+                Society.findById(user.societyId)
+                    .then((docSociety) => {
+                        console.log("\n>> Get Society:\n", docSociety);
+                        resolve(docSociety);
+                    })
+                    .catch((err) => {
+                        console.log("No Society found: error is " + err);
                         resolve(false);
                     });
             });
