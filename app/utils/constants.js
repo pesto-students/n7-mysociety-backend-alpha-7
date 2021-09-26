@@ -18,12 +18,31 @@ module.exports = {
       INVALID_PASSWORD: "Invalid Password!",
       NOT_CONFIRMED:
         "Invalid password, You are not verified yet by society admin. Contact society admin for more details.",
+      ADMIN_NOT_CONFIRMED:
+        "You are not verified yet. Check your mail for further verification.",
       INACTIVE:
         "You account is inactive. Contact society admin for more details.",
     },
     NO_TOKEN: "No token provided!",
     NOT_AUTHORIZED: "You are not authorized to use our service!",
+    VERIFY_SOCIETY: {
+      INVALID_PARAMS: "Please provide valid data to verify society.",
+      INVALID: "Captcha invalid please try again.",
+      FAILED: "Verification failed, Please try again.",
+      SUCCESS: "Your are successfully verified.",
+    },
+    FORGET_PASSWORD: {
+      INVALID: "Captcha invalid please try again.",
+    },
+    RESET_PASSWORD: {
+      INVALID_PARAMS: "Please provide valid data to reset password.",
+      INVALID: "Captcha invalid please try again.",
+      FAILED: "Password Reset failed, Please try again.",
+      SUCCESS: "Password reset successfully try login.",
+    },
   },
+  NO_TOKEN: "No token provided!",
+  NOT_AUTHORIZED: "You are not authorized to use our service!",
   PUBLIC: {
     ALL_SOCIETY_DATA: "Society Data.",
     SOCIETY_DATA_NOT_AVAILABLE: "Society Data not available.",
@@ -129,5 +148,8 @@ module.exports = {
       ALL: "All gallery.",
       NOT_FOUND: "No gallery found.",
     },
+  },
+  SOCIETY: {
+    UPDATED: "Society updated successfully.",
   },
 };

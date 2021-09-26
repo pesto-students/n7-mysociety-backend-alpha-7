@@ -17,4 +17,19 @@ module.exports = function (app) {
     );
 
     app.post("/.netlify/functions/api/auth/signin", controller.signin);
+
+    app.post(
+        "/.netlify/functions/api/auth/forget-password",
+        controller.forgetPassword
+    );
+
+    app.post(
+        "/.netlify/functions/api/auth/reset-password",
+        controller.resetPassword
+    );
+
+    app.post(
+        "/.netlify/functions/api/auth/verify-society",
+        controller.verifySociety
+    );
 };

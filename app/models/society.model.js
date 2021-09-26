@@ -6,6 +6,7 @@ const Society = mongoose.model(
         name: String,
         societyEmail: String,
         address: String,
+        mobile: String,
         admin: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
