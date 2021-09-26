@@ -80,10 +80,13 @@ exports.createUpdateComplaint = async (req, res) => {
                 console.log(record, "record");
                 const societyAdmins = await utils.getSocietyAdmins(societyId);
                 const emailBody = await EmailController.getHtml("default", {
+                    clientURI: config.clientURI,
+                    buttonUrl: `${config.clientURI}complaints`,
+                    buttonText: "View Complaint",
                     body: "New complaint created by society member. Open MySociety app for more details.",
                 });
                 const mailOption = {
-                    from: '"MySociety " <team.ninja.alpha7@gmail.com>',
+                    from: '"MySociety " <no-reply@gmail.com>',
                     to: societyAdmins.join(","),
                     subject: "New Complaint Arise",
                     html: emailBody,

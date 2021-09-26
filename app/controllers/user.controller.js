@@ -2,9 +2,10 @@ const config = require("../config");
 const db = require("../models");
 const _ = require("lodash");
 const User = db.user;
+const Society = db.society;
 const EmailController = require("./email");
 const utils = require("../utils/functions");
-const { COMMON, USER, SETTINGS, AUTH } = require("../utils/constants");
+const { COMMON, USER, SETTINGS, AUTH, SOCIETY } = require("../utils/constants");
 
 exports.updateUser = async (req, res) => {
     try {
@@ -131,6 +132,7 @@ exports.getUser = async (req, res) => {
                     "mobile",
                     "flatNo",
                     "profilePic",
+                    "role",
                 ]);
                 const societyData = await utils.getSociety({
                     societyId: societyId,
@@ -148,6 +150,7 @@ exports.getUser = async (req, res) => {
                     "name",
                     "societyEmail",
                     "address",
+                    "mobile",
                 ]);
                 res.status(200).send({
                     message: USER.FOUND,
@@ -157,6 +160,59 @@ exports.getUser = async (req, res) => {
             });
         }
     } catch (err) {
+        res.status(500).send({
+            message: COMMON.SOMETHING_WRONG,
+        });
+        return;
+    }
+};
+
+exports.updateSociety = async (req, res) => {
+    try {
+        const { userId, userRole } = req;
+        const { societyId } = req.body;
+
+        const filter = { _id: societyId, admin: userId };
+
+        let update = _.pick(req.body, ["name", "address", "mobile"]);
+        if (update !== null) {
+            Society.findOneAndUpdate(
+                filter,
+                update,
+                {
+                    new: true,
+                },
+                (err, result) => {
+                    if (err) {
+                        res.status(500).send({
+                            message: COMMON.SOMETHING_WRONG,
+                            error: err,
+                        });
+                        return;
+                    }
+                    const societyData = _.pick(result, [
+                        "_id",
+                        "name",
+                        "societyEmail",
+                        "address",
+                        "mobile",
+                    ]);
+
+                    res.status(203).send({
+                        message: SOCIETY.UPDATED,
+                        result: societyData,
+                    });
+                    return;
+                }
+            );
+        } else {
+            res.status(400).send({
+                message: COMMON.SOMETHING_MISSING,
+            });
+            return;
+        }
+    } catch (err) {
+        console.log(err, "err");
         res.status(500).send({
             message: COMMON.SOMETHING_WRONG,
         });

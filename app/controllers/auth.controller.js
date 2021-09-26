@@ -1,4 +1,5 @@
 const config = require("../config");
+const buffer = require("buffer/").Buffer;
 const db = require("../models");
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
@@ -7,7 +8,8 @@ const User = db.user;
 const Society = db.society;
 const EmailController = require("./email");
 const { AUTH, COMMON } = require("../utils/constants");
-
+const { validateCaptcha, queryStringToObject } = require("../utils/functions");
+const axios = require("axios");
 const createSociety = function (req) {
     try {
         return Society.create(req).then((docSociety) => {
@@ -93,9 +95,29 @@ exports.signup = async (req, res) => {
             if (role === "admin") {
                 const update = await updateAdminInSociety(docSociety._id, user);
             }
-            const emailBody = await EmailController.getHtml("default", {
+            var htmlBody = {
+                clientURI: config.clientURI,
+                buttonUrl: `${config.clientURI}`,
+                buttonText: "Login To MySociety",
                 body: "Thank you for joining the MySociety. Now you can access the MySociety dashboard and involve in day to day society activity.",
-            });
+            };
+            if (role === "admin") {
+                const token = buffer
+                    .from(
+                        `_id=${user._id}&email=${user.email}&societyId=${user.societyId}`
+                    )
+                    .toString("base64");
+                htmlBody = {
+                    clientURI: config.clientURI,
+                    buttonUrl: `${config.clientURI}verify/society/${token}`,
+                    buttonText: "Verify Now",
+                    body: "Thank you for register your society on MySociety. After verification you can access the MySociety dashboard and involve in day to day society activity.",
+                };
+            }
+            const emailBody = await EmailController.getHtml(
+                "default",
+                htmlBody
+            );
             const mailOption = {
                 from: '"MySociety " <team.ninja.alpha7@gmail.com>', // sender address
                 to: email, // list of receivers
@@ -142,6 +164,11 @@ exports.signin = async (req, res) => {
             }
 
             if (!user?.isConfirmed) {
+                if (user.role === "admin") {
+                    return res.status(403).send({
+                        message: AUTH.SIGNIN.ADMIN_NOT_CONFIRMED,
+                    });
+                }
                 return res.status(403).send({
                     message: AUTH.SIGNIN.NOT_CONFIRMED,
                 });
@@ -184,11 +211,208 @@ exports.signin = async (req, res) => {
                 "name",
                 "societyEmail",
                 "address",
+                "mobile",
             ]);
             res.status(200).send(userData);
             return;
         });
     } catch (err) {
+        res.status(500).send({
+            message: COMMON.SOMETHING_WRONG,
+            error: err,
+        });
+        return;
+    }
+};
+
+exports.forgetPassword = async (req, res) => {
+    try {
+        const { email, captcha } = req.body;
+        const param = { captcha: captcha };
+        console.log(param, "param");
+
+        const validated = await validateCaptcha(param);
+        console.log(validated, "validated");
+        if (!validated) {
+            res.status(403).send({
+                message: AUTH.FORGET_PASSWORD.INVALID,
+            });
+            return;
+        }
+
+        User.findOne({
+            email: email,
+        }).exec(async (err, user) => {
+            if (err) {
+                res.status(500).send({ message: err });
+                return;
+            }
+
+            if (!user) {
+                return res
+                    .status(404)
+                    .send({ message: AUTH.SIGNIN.USER_NOT_FOUND });
+            }
+            const token = buffer
+                .from(
+                    `_id=${user._id}&email=${user.email}&societyId=${user.societyId}`
+                )
+                .toString("base64");
+            console.log(token, "--token--");
+            const emailBody = await EmailController.getHtml("default", {
+                clientURI: config.clientURI,
+                buttonUrl: `${config.clientURI}verify/reset-password/${token}`,
+                buttonText: "Reset Password",
+                body: `You request a reset password. Reset it by clicking on blow button.`,
+            });
+            const mailOption = {
+                from: '"MySociety " <team.ninja.alpha7@gmail.com>', // sender address
+                to: email, // list of receivers
+                subject: "MySociety Account Reset", // Subject line
+                html: emailBody, // html body
+            };
+            const sendMail = await EmailController.sendEmail(mailOption);
+            res.status(200).send({
+                message: AUTH.SIGNUP.USER_REGISTERED,
+                sendMail: sendMail,
+            });
+            return;
+        });
+    } catch (err) {
+        console.log(err, "err");
+        res.status(500).send({
+            message: COMMON.SOMETHING_WRONG,
+            error: err,
+        });
+        return;
+    }
+};
+
+exports.verifySociety = async (req, res) => {
+    try {
+        const { token, captcha } = req.body;
+        const param = { captcha: captcha };
+
+        if (token && captcha) {
+            const queryString = buffer.from(token, "base64").toString("ascii");
+            console.log(queryString, "bufffff");
+            const { id, email, societyId } = queryStringToObject(queryString);
+
+            const validated = await validateCaptcha(param);
+            console.log(validated, "validated");
+            if (!validated) {
+                res.status(403).send({
+                    message: AUTH.VERIFY_SOCIETY.INVALID,
+                });
+                return;
+            }
+            const filter = {
+                _id: id,
+                email: email,
+                societyId: societyId,
+            };
+            const update = {
+                isConfirmed: true,
+                isActive: true,
+            };
+            User.findOneAndUpdate(
+                filter,
+                update,
+                {
+                    new: true,
+                },
+                (err, user) => {
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+
+                    if (!user) {
+                        return res
+                            .status(404)
+                            .send({ message: AUTH.VERIFY_SOCIETY.FAILED });
+                    }
+                }
+            );
+            res.status(200).send({
+                message: AUTH.VERIFY_SOCIETY.SUCCESS,
+            });
+            return;
+        } else {
+            res.status(400).send({
+                message: AUTH.VERIFY_SOCIETY.INVALID_PARAMS,
+                error: err,
+            });
+            return;
+        }
+    } catch (err) {
+        console.log(err, "err");
+        res.status(500).send({
+            message: COMMON.SOMETHING_WRONG,
+            error: err,
+        });
+        return;
+    }
+};
+
+exports.resetPassword = async (req, res) => {
+    try {
+        const { password, token, captcha } = req.body;
+        const param = { captcha: captcha };
+
+        if (password && token && captcha) {
+            const queryString = buffer.from(token, "base64").toString("ascii");
+            console.log(queryString, "queryString");
+            const { id, email, societyId } = queryStringToObject(queryString);
+
+            const validated = await validateCaptcha(param);
+            console.log(validated, "validated");
+            if (!validated) {
+                res.status(403).send({
+                    message: AUTH.RESET_PASSWORD.INVALID,
+                });
+                return;
+            }
+            const filter = {
+                _id: id,
+                email: email,
+                societyId: societyId,
+            };
+            const update = {
+                password: bcrypt.hashSync(password, 8),
+            };
+            User.findOneAndUpdate(
+                filter,
+                update,
+                {
+                    new: true,
+                },
+                (err, user) => {
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+
+                    if (!user) {
+                        return res
+                            .status(404)
+                            .send({ message: AUTH.RESET_PASSWORD.FAILED });
+                    }
+                }
+            );
+            res.status(200).send({
+                message: AUTH.RESET_PASSWORD.SUCCESS,
+            });
+            return;
+        } else {
+            res.status(400).send({
+                message: AUTH.RESET_PASSWORD.INVALID_PARAMS,
+                error: err,
+            });
+            return;
+        }
+    } catch (err) {
+        console.log(err, "err");
         res.status(500).send({
             message: COMMON.SOMETHING_WRONG,
             error: err,
