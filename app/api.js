@@ -39,6 +39,7 @@ require("./routes/announcement.routes")(app);
 require("./routes/event.routes")(app);
 require("./routes/complaint.routes")(app);
 require("./routes/gallery.routes")(app);
+require("./routes/upload.routes")(app);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   // return data for 404
