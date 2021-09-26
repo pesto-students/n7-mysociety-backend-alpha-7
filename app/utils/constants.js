@@ -18,33 +18,28 @@ module.exports = {
             INVALID_PASSWORD: "Invalid Password!",
             NOT_CONFIRMED:
                 "Invalid password, You are not verified yet by society admin. Contact society admin for more details.",
+            ADMIN_NOT_CONFIRMED:
+                "You are not verified yet. Check your mail for further verification.",
             INACTIVE:
                 "You account is inactive. Contact society admin for more details.",
         },
         NO_TOKEN: "No token provided!",
         NOT_AUTHORIZED: "You are not authorized to use our service!",
-    },
-    PUBLIC: {
-        ALL_SOCIETY_DATA: "Society Data.",
-        SOCIETY_DATA_NOT_AVAILABLE: "Society Data not available.",
-    },
-    AUTH: {
-        SIGNUP: {
-            CAN_NOT_CREATE_SOCIETY: "Can't able to create society.",
-            USER_REGISTERED: "User register successfully.",
-            EMAIL_ALREADY_EXIST: "Oops! Email is already in use!",
+        VERIFY_SOCIETY: {
+            INVALID_PARAMS: "Please provide valid data to verify society.",
+            INVALID: "Captcha invalid please try again.",
+            FAILED: "Verification failed, Please try again.",
+            SUCCESS: "Your are successfully verified.",
         },
-        SIGNIN: {
-            SOCIETY_NOT_FOUND: "Society data not found.",
-            USER_NOT_FOUND: "User not found.",
-            INVALID_PASSWORD: "Invalid Password!",
-            NOT_CONFIRMED:
-                "Invalid password, You are not verified yet by society admin. Contact society admin for more details.",
-            INACTIVE:
-                "You account is inactive. Contact society admin for more details.",
+        FORGET_PASSWORD: {
+            INVALID: "Captcha invalid please try again.",
         },
-        NO_TOKEN: "No token provided!",
-        NOT_AUTHORIZED: "You are not authorized to use our service!",
+        RESET_PASSWORD: {
+            INVALID_PARAMS: "Please provide valid data to reset password.",
+            INVALID: "Captcha invalid please try again.",
+            FAILED: "Password Reset failed, Please try again.",
+            SUCCESS: "Password reset successfully try login.",
+        },
     },
     PUBLIC: {
         ALL_SOCIETY_DATA: "Society Data.",
@@ -115,5 +110,8 @@ module.exports = {
         NOT_FOUND: "No user found.",
         UPDATED: "User updated successfully.",
         SOMETHING_MISSING: "Something is missing please try again.",
+    },
+    SOCIETY: {
+        UPDATED: "Society updated successfully.",
     },
 };

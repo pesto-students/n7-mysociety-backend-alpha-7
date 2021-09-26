@@ -2,6 +2,7 @@ const config = require("../../config");
 const { EMAIL, COMMON } = require("../../utils/constants");
 const EmailController = {
     getHtml: (template, argv) => {
+        console.log(argv, "argv-----------");
         const ejs = require("ejs");
         try {
             return new Promise((resolve, reject) => {

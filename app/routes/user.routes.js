@@ -27,4 +27,10 @@ module.exports = function (app) {
         [authJwt.verifyToken],
         userController.updateUser
     );
+
+    app.put(
+        "/.netlify/functions/api/society",
+        [authJwt.verifyToken],
+        userController.updateSociety
+    );
 };
