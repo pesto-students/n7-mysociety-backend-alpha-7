@@ -1,8 +1,8 @@
 const fs = require("fs");
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_ACCESS_SECRET_KEY,
+    accessKeyId: process.env.A_W_S_ACCESS_KEY,
+    secretAccessKey: process.env.A_W_S_ACCESS_SECRET_KEY,
 });
 const uploadFile = async (files) => {
     try {
