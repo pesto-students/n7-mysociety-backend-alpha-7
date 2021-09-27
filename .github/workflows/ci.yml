@@ -1,50 +1,50 @@
 name: CI
 
-on: 
-  push:
-    branches:    
-      - develop 
+on:
+    push:
+        branches:
+            - develop
 
 jobs:
-  deployment:
-    name: Deployment Process
-    runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        node-version: [15.x]
-    
-    steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-   
-    - name: npm install
-      run: |
-        npm i
-        npm ci
-      
-    - name: npm build
-      run: |
-        npm run build
+    deployment:
+        name: Deployment Process
+        runs-on: ubuntu-latest
 
-    - name: Deploy on netlify
-      run: |
-        npx netlify-cli deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --prod
-  
-  slackNotification:
-    name: Slack Notification
-    needs: deployment
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_USERNAME: "MySociety Backend"
-        SLACK_ICON_EMOJI: ":bell:"
-        SLACK_COLOR: "good"
-        SLACK_MESSAGE: 'Pushed on backend :rocket:'
+        strategy:
+            matrix:
+                node-version: [15.x]
+
+        steps:
+            - uses: actions/checkout@v1
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: npm install
+              run: |
+                  npm i
+                  npm ci
+
+            - name: npm build
+              run: |
+                  npm run build
+
+            - name: Deploy on netlify
+              run: |
+                  npx netlify-cli deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --prod
+
+    slackNotification:
+        name: Slack Notification
+        needs: deployment
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Slack Notification
+              uses: rtCamp/action-slack-notify@v2
+              env:
+                  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+                  SLACK_USERNAME: "MySociety Backend"
+                  SLACK_ICON_EMOJI: ":bell:"
+                  SLACK_COLOR: "good"
+                  SLACK_MESSAGE: "Pushed on backend :rocket:"
