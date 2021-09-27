@@ -6,4 +6,5 @@ module.exports = {
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASS: process.env.SMTP_PASS,
     clientURI: process.env.CLIENT_URI,
+    cors_url: process.env.CORS_URL,
 };
