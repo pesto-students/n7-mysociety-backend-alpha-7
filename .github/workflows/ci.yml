@@ -3,7 +3,7 @@ name: CI
 on:
     push:
         branches:
-            - feature/netlify-fix
+            - develop
 
 jobs:
     deployment:
@@ -23,7 +23,6 @@ jobs:
 
             - name: npm install
               run: |
-                  echo "Site Name =  ${{ secrets.NETLIFY_SITE_ID }}"
                   npm i
                   npm ci
 
