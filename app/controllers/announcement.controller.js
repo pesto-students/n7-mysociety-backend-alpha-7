@@ -29,30 +29,11 @@ exports.createUpdateAnnouncement = async (req, res) => {
             return;
           }
 
-          announcement.save(async (err, record) => {
-            if (err) {
-              res.status(500).send({ message: err });
-              return;
-            }
-            const societyMembers = await utils.getSocietyMembers(societyId);
-            const emailBody = await EmailController.getHtml("default", {
-              body:
-                "New announcement is there in your society. Open MySociety app for more details.",
-            });
-            const mailOption = {
-              from: '"MySociety " <team.ninja.alpha7@gmail.com>',
-              to: societyMembers.join(","),
-              subject: "New Announcement",
-              html: emailBody,
-            };
-            const sendMail = await EmailController.sendEmail(mailOption);
-            res.status(201).send({
-              message: ANNOUNCEMENT.CREATED,
-              result: record,
-              sendMail: sendMail,
-            });
-            return;
+          res.status(203).send({
+            message: ANNOUNCEMENT.UPDATED,
+            result: result,
           });
+          return;
         }
       );
     } else {
@@ -70,11 +51,14 @@ exports.createUpdateAnnouncement = async (req, res) => {
         }
         const societyMembers = await utils.getSocietyMembers(societyId);
         const emailBody = await EmailController.getHtml("default", {
+          clientURI: config.clientURI,
+          buttonUrl: `${config.clientURI}announcements`,
+          buttonText: "View Announcement",
           body:
             "New announcement is there in your society. Open MySociety app for more details.",
         });
         const mailOption = {
-          from: '"MySociety " <team.ninja.alpha7@gmail.com>',
+          from: '"MySociety " <no-reply@gmail.com>',
           to: societyMembers.join(","),
           subject: "New Announcement",
           html: emailBody,
