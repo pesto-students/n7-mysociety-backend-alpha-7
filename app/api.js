@@ -8,25 +8,25 @@ const config = require("./config");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:3000",
-  exposedHeaders: ["Authorization", "x-auth-token"],
+    origin: "http://localhost:3000",
+    exposedHeaders: ["Authorization", "x-auth-token"],
 };
 
 app.use(cors(corsOptions));
 console.log(config.mongoURI, "config.mongoURI");
 db.mongoose
-  .connect(config.mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: true,
-  })
-  .then(() => {
-    console.log("Successfully connect to MongoDB.");
-  })
-  .catch((err) => {
-    console.error("Connection error", err);
-    process.exit();
-  });
+    .connect(config.mongoURI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: true,
+    })
+    .then(() => {
+        console.log("Successfully connect to MongoDB.");
+    })
+    .catch((err) => {
+        console.error("Connection error", err);
+        process.exit();
+    });
 
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -44,8 +44,8 @@ require("./routes/faqs.routes")(app);
 require("./routes/upload.routes")(app);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  // return data for 404
-  res.status(404).send({ message: "Something went wrong! Error: 404" });
+    // return data for 404
+    res.status(404).send({ message: "Something went wrong! Error: 404" });
 });
 
 module.exports = app;
