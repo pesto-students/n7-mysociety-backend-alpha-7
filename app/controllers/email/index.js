@@ -6,23 +6,31 @@ const EmailController = {
         const ejs = require("ejs");
         try {
             return new Promise((resolve, reject) => {
-                ejs.renderFile(
-                    `./app/templates/${template}.ejs`,
-                    argv,
-                    function (error, fileContent) {
-                        if (error != null) {
-                            console.log("run this");
-                            console.log(error, "error");
-                            reject({
-                                statusCode: 404,
-                                body: EMAIL.PROVIDE_VALID_TEMPLATE,
-                                error: error,
-                            });
-                        }
+                try {
+                    ejs.renderFile(
+                        `./app/templates/${template}.ejs`,
+                        argv,
+                        function (error, fileContent) {
+                            if (error != null) {
+                                console.log("run this");
+                                console.log(error, "error");
+                                reject({
+                                    statusCode: 404,
+                                    body: EMAIL.PROVIDE_VALID_TEMPLATE,
+                                    error: error,
+                                });
+                            }
 
-                        resolve(fileContent);
-                    }
-                );
+                            resolve(fileContent);
+                        }
+                    );
+                } catch (error) {
+                    reject({
+                        statusCode: 404,
+                        body: EMAIL.PROVIDE_VALID_TEMPLATE,
+                        error: error,
+                    });
+                }
             });
         } catch (error) {
             return {
