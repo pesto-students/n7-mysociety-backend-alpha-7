@@ -14,7 +14,7 @@ const EmailController = {
                             if (error != null) {
                                 console.log("run this");
                                 console.log(error, "error");
-                                reject({
+                                resolve({
                                     statusCode: 404,
                                     body: EMAIL.PROVIDE_VALID_TEMPLATE,
                                     error: error,
@@ -25,7 +25,8 @@ const EmailController = {
                         }
                     );
                 } catch (error) {
-                    reject({
+                    console.log(error, "error in ejs template");
+                    resolve({
                         statusCode: 404,
                         body: EMAIL.PROVIDE_VALID_TEMPLATE,
                         error: error,
