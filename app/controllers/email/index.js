@@ -1,15 +1,21 @@
 const config = require("../../config");
 const { EMAIL, COMMON } = require("../../utils/constants");
 const ejs = require("ejs");
+const path = require("path");
+const fs = require("fs");
 const EmailController = {
     getHtml: (template, argv) => {
         console.log(argv, "argv-----------");
 
         try {
             return new Promise((resolve, reject) => {
+                console.log(
+                    `${__dirname}/dist/templates/${template}.ejs`,
+                    "pathhhhhhhhhhhhhhhhhhh"
+                );
                 try {
                     ejs.renderFile(
-                        `.app/templates/${template}.ejs`,
+                        `./dist/templates/${template}.ejs`,
                         argv,
                         function (error, fileContent) {
                             if (error != null) {
