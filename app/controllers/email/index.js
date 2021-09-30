@@ -1,14 +1,15 @@
 const config = require("../../config");
 const { EMAIL, COMMON } = require("../../utils/constants");
+const ejs = require("ejs");
 const EmailController = {
     getHtml: (template, argv) => {
         console.log(argv, "argv-----------");
-        const ejs = require("ejs");
+
         try {
             return new Promise((resolve, reject) => {
                 try {
                     ejs.renderFile(
-                        `/var/task/app/templates/${template}.ejs`,
+                        `.app/templates/${template}.ejs`,
                         argv,
                         function (error, fileContent) {
                             if (error != null) {
