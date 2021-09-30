@@ -265,6 +265,7 @@ exports.forgetPassword = async (req, res) => {
                 buttonText: "Reset Password",
                 body: `You request a reset password. Reset it by clicking on blow button.`,
             });
+            console.log(emailBody, "emailBody=============");
             const mailOption = {
                 from: '"MySociety " <team.ninja.alpha7@gmail.com>', // sender address
                 to: email, // list of receivers

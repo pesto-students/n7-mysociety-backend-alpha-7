@@ -14,7 +14,7 @@ exports.getGallery = async function (req, res) {
       res.status(403).send({ message: GALLERY.RESPONSE.NOT_FOUND });
     }
     res.status(200).send({ message: GALLERY.RESPONSE.ALL, result: result });
-  });
+  }).sort([["created_at", -1]]);
 };
 
 exports.deleteGallery = async function (req, res) {
