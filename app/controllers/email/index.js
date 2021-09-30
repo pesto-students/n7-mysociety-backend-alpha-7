@@ -8,7 +8,7 @@ const EmailController = {
             return new Promise((resolve, reject) => {
                 try {
                     ejs.renderFile(
-                        `templates/${template}`,
+                        `/var/task/app/templates/${template}.ejs`,
                         argv,
                         function (error, fileContent) {
                             if (error != null) {
