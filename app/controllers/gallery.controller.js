@@ -2,7 +2,6 @@ const config = require("../config");
 const db = require("../models");
 const _ = require("lodash");
 const Gallery = db.gallery;
-const User = db.user;
 const EmailController = require("./email");
 const utils = require("../utils/functions");
 const { COMMON, GALLERY } = require("../utils/constants");
@@ -14,12 +13,11 @@ exports.getGallery = async function (req, res) {
       res.status(403).send({ message: GALLERY.RESPONSE.NOT_FOUND });
     }
     res.status(200).send({ message: GALLERY.RESPONSE.ALL, result: result });
-  });
+  }).sort([["created_at", -1]]);
 };
 
 exports.deleteGallery = async function (req, res) {
   try {
-    const { userId } = req;
     const { _id, societyId } = req.query;
     Gallery.findOneAndDelete(
       { _id: _id, societyId: societyId },
@@ -97,7 +95,12 @@ exports.createGallery = async function (req, res) {
           subject: "New Event",
           html: emailBody,
         };
-        const sendMail = await EmailController.sendEmail(mailOption);
+        const sendMail = await EmailController.sendEmail(mailOption).catch(
+          (error) => {
+            res.status(500).send({ message: error });
+            return;
+          }
+        );
         res.status(201).send({
           message: GALLERY.RESPONSE.CREATED,
           result: record,
