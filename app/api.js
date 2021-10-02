@@ -7,13 +7,14 @@ const db = require("./models");
 const config = require("./config");
 const app = express();
 
-app.set("view engine", "ejs");
 var corsOptions = {
   origin: config.cors_url,
   exposedHeaders: ["Authorization", "x-auth-token"],
 };
 
 app.use(cors(corsOptions));
+//set express view engine
+app.set("view engine", "ejs");
 console.log(config.mongoURI, "config.mongoURI");
 db.mongoose
   .connect(config.mongoURI, {

@@ -1,41 +1,37 @@
 const config = require("../../config");
 const { EMAIL, COMMON } = require("../../utils/constants");
+const content = require("../../templates/default");
 const ejs = require("ejs");
-const path = require("path");
-const fs = require("fs");
 const EmailController = {
     getHtml: (template, argv) => {
-        console.log(argv, "argv-----------");
+        // console.log(argv, "argv-----------");
+        // console.log(content, "content-----------");
 
         try {
             return new Promise((resolve, reject) => {
-                console.log(
-                    `${__dirname}/dist/templates/${template}.ejs`,
-                    "pathhhhhhhhhhhhhhhhhhh"
-                );
                 try {
-                    ejs.renderFile(
-                        `./dist/templates/${template}.ejs`,
-                        argv,
-                        function (error, fileContent) {
-                            if (error != null) {
-                                console.log("run this");
-                                console.log(error, "error");
-                                resolve({
-                                    statusCode: 404,
-                                    body: EMAIL.PROVIDE_VALID_TEMPLATE,
-                                    error: error,
-                                });
-                            }
+                    const fileContent = ejs.render(content, argv);
 
-                            resolve(fileContent);
+                    console.log(fileContent, "fileContent--------");
+                    resolve(fileContent);
+                    /* function (error, fileContent) {
+                        if (error != null) {
+                            console.log("run this");
+                            console.log(error, "error");
+                            resolve({
+                                statusCode: 404,
+                                body: EMAIL.PROVIDE_VALID_TEMPLATE,
+                                error: error,
+                            });
                         }
-                    );
+
+                        resolve(fileContent);
+                    });*/
                 } catch (error) {
                     console.log(error, "error in ejs template");
                     resolve({
-                        statusCode: 404,
-                        body: EMAIL.PROVIDE_VALID_TEMPLATE,
+                        statusCode: 500,
+                        body: COMMON.SOMETHING_WRONG,
                         error: error,
                     });
                 }
