@@ -1,32 +1,14 @@
 const config = require("../../config");
-const { EMAIL, COMMON } = require("../../utils/constants");
+const { COMMON } = require("../../utils/constants");
 const content = require("../../templates/default");
 const ejs = require("ejs");
 const EmailController = {
-    getHtml: (template, argv) => {
-        // console.log(argv, "argv-----------");
-        // console.log(content, "content-----------");
-
+    getHtml: (argv) => {
         try {
             return new Promise((resolve, reject) => {
                 try {
                     const fileContent = ejs.render(content, argv);
-
-                    console.log(fileContent, "fileContent--------");
                     resolve(fileContent);
-                    /* function (error, fileContent) {
-                        if (error != null) {
-                            console.log("run this");
-                            console.log(error, "error");
-                            resolve({
-                                statusCode: 404,
-                                body: EMAIL.PROVIDE_VALID_TEMPLATE,
-                                error: error,
-                            });
-                        }
-
-                        resolve(fileContent);
-                    });*/
                 } catch (error) {
                     console.log(error, "error in ejs template");
                     resolve({

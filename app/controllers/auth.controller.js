@@ -114,10 +114,7 @@ exports.signup = async (req, res) => {
                     body: "Thank you for register your society on MySociety. After verification you can access the MySociety dashboard and involve in day to day society activity.",
                 };
             }
-            const emailBody = await EmailController.getHtml(
-                "default",
-                htmlBody
-            );
+            const emailBody = await EmailController.getHtml(htmlBody);
             const mailOption = {
                 from: '"MySociety " <team.ninja.alpha7@gmail.com>', // sender address
                 to: email, // list of receivers
@@ -259,7 +256,7 @@ exports.forgetPassword = async (req, res) => {
                 )
                 .toString("base64");
             console.log(token, "--token--");
-            const emailBody = await EmailController.getHtml("default", {
+            const emailBody = await EmailController.getHtml({
                 clientURI: config.clientURI,
                 buttonUrl: `${config.clientURI}verify/reset-password/${token}`,
                 buttonText: "Reset Password",

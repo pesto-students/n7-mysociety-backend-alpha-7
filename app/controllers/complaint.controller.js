@@ -79,7 +79,7 @@ exports.createUpdateComplaint = async (req, res) => {
                 }
                 console.log(record, "record");
                 const societyAdmins = await utils.getSocietyAdmins(societyId);
-                const emailBody = await EmailController.getHtml("default", {
+                const emailBody = await EmailController.getHtml({
                     clientURI: config.clientURI,
                     buttonUrl: `${config.clientURI}complaints`,
                     buttonText: "View Complaint",

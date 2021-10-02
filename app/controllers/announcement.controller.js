@@ -50,7 +50,7 @@ exports.createUpdateAnnouncement = async (req, res) => {
                     return;
                 }
                 const societyMembers = await utils.getSocietyMembers(societyId);
-                const emailBody = await EmailController.getHtml("default", {
+                const emailBody = await EmailController.getHtml( {
                     clientURI: config.clientURI,
                     buttonUrl: `${config.clientURI}announcements`,
                     buttonText: "View Announcement",
