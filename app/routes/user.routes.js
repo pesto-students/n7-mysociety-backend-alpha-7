@@ -17,6 +17,11 @@ module.exports = function (app) {
     );
 
     app.get(
+        "/.netlify/functions/api/get-guest-login",
+        controller.getGuestLogin
+    );
+
+    app.get(
         "/.netlify/functions/api/user",
         [authJwt.verifyToken],
         userController.getUser
