@@ -46,6 +46,8 @@ module.exports = {
     PUBLIC: {
         ALL_SOCIETY_DATA: "Society Data.",
         SOCIETY_DATA_NOT_AVAILABLE: "Society Data not available.",
+        GUEST_DATA: "Guest Data.",
+        GUEST_DATA_NOT_AVAILABLE: "Guest Data not available.",
     },
     AUTH: {
         SIGNUP: {
@@ -81,10 +83,6 @@ module.exports = {
             FAILED: "Password Reset failed, Please try again.",
             SUCCESS: "Password reset successfully try login.",
         },
-    },
-    PUBLIC: {
-        ALL_SOCIETY_DATA: "Society Data.",
-        SOCIETY_DATA_NOT_AVAILABLE: "Society Data not available.",
     },
     COMMON: {
         SOMETHING_WRONG: "Something want wrong please try again.",

@@ -14,4 +14,5 @@ db.event = require("./event.model");
 db.complaint = require("./complaint.model");
 db.gallery = require("./gallery.model");
 db.faqs = require("./faq.model");
+db.guest = require("./guest.model");
 module.exports = db;
