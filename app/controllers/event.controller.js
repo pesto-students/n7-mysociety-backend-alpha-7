@@ -105,7 +105,7 @@ exports.getEvents = async (req, res) => {
             page: page,
             limit: limit,
             filterType: filterType,
-            sort: { created_at: -1 },
+            sort: { fromDateTime: 1 },
         };
         let query = {};
         if (societyId) {
