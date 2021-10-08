@@ -1,0 +1,469 @@
+{
+	"info": {
+		"_postman_id": "2ad93ab5-722f-4be9-9755-5e1ac8b398b8",
+		"name": "MySociety All API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Singup & signin",
+			"item": [
+				{
+					"name": "Register Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\":\"Mahesh\",\n    \"lastName\":\"Vora\",\n    \"email\":\"maheshvorahelp@gmail.com\",\n    \"societyId\": \"soid\",\n    \"role\":\"admin\",\n    \"societyName\":\"society 2\",\n    \"societyAddress\":\"society address 2\",\n    \"password\":\"test3434\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/auth/signup",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Member",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\":\"Team\",\n    \"lastName\":\"Ninja\",\n    \"email\":\"complainttest1@gmail.com\",\n    \"mobile\": \"1231231231\",\n    \"societyId\": \"{{societyID}}\",\n    \"flatNo\": \"flno\",\n    \"password\":\"test3434\",\n    \"role\":\"member\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/auth/signup",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Member",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"complainttest1@gmail.com\",\n    \"password\":\"test3434\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/auth/signin",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"maheshvorahelp@gmail.com\",\n    \"password\":\"test3434\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/auth/signin",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all society",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxM2VkODUzM2YyODc4OGI1MGMyODkwMSIsImlhdCI6MTYzMTU1MzU1NywiZXhwIjoxNjMxNjM5OTU3fQ.pYhYPKJ__8owCEp7d1qpTIvabQN6H706mBp8KECuttg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/get-all-society",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"get-all-society"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Announcements",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDU4NmE0MmY5OTIxMTcwMjYxZWQ0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzMTk3MDk2OCwiZXhwIjoxNjMyMDU3MzY4fQ.aqUgTxhBpcVAIUxHErUllyPKnRjRsKkzXLk3iXQ7fFc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"title test20\",\n    \"desc\": \"desc test20\",\n    \"societyId\": \"{{societyID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/announcement",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"announcement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDU4NmE0MmY5OTIxMTcwMjYxZWQ0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzMTk3MDk2OCwiZXhwIjoxNjMyMDU3MzY4fQ.aqUgTxhBpcVAIUxHErUllyPKnRjRsKkzXLk3iXQ7fFc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_id\":\"6146db34dc23d9436a10abf2\",\n    \"title\": \"title test21\",\n    \"desc\": \"desc test21\",\n    \"societyId\": \"{{societyID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/announcement",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"announcement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDU4NmE0MmY5OTIxMTcwMjYxZWQ0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzMTk3MDk2OCwiZXhwIjoxNjMyMDU3MzY4fQ.aqUgTxhBpcVAIUxHErUllyPKnRjRsKkzXLk3iXQ7fFc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_id\":\"6146db34dc23d9436a10abf2\",\n    \"societyId\": \"{{societyID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/announcement",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"announcement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDU4NmE0MmY5OTIxMTcwMjYxZWQ0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzMjE2NDAyNCwiZXhwIjoxNjMyMjUwNDI0fQ.Rs9KeyJQ6jYeCEnvVhQD7moABhX9H8VupkFFHupmbTc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"societyId\": \"{{societyID}}\",\n    \"limit\": 100,\n    \"page\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/announcement?societyId={{societyID}}&limit=2&page=1&filterType=latest",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"announcement"
+							],
+							"query": [
+								{
+									"key": "societyId",
+									"value": "{{societyID}}"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "filterType",
+									"value": "latest"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Complaint",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDliNjZmMjEzZGJiYTc4NGVhZjg4MyIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE2MzIyMjA3OTYsImV4cCI6MTYzMjMwNzE5Nn0.QiQhTgGxZa6-i-JeSqhVaDx2zSQv569OcrRVYWTQWUk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Complaint title3\",\n    \"desc\": \"Complaint Description3\",\n    \"status\": \"Pending\",\n    \"societyId\": \"{{societyID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/complaint",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"complaint"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDU4NmE0MmY5OTIxMTcwMjYxZWQ0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzMjA2ODI4NSwiZXhwIjoxNjMyMTU0Njg1fQ.SjDlQG7lIGufo_9_5rlh7UXzpVyOjl1qtaQa8_ceVaQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_id\": \"614753c1c15b176e206a28bc\",\n    \"title\": \"Complaint title1\",\n    \"desc\": \"Complaint Description1\",\n    \"status\": \"Rejected\",\n    \"comment\": \"This the the test comment8.\",\n    \"societyId\": \"{{societyID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/complaint",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"complaint"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDU4NmE0MmY5OTIxMTcwMjYxZWQ0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzMjIyMDkyNywiZXhwIjoxNjMyMzA3MzI3fQ.Z4yGXCMm6fKXn7ju7CVISAnilShq28BqXNkSrZk_VOo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/.netlify/functions/api/complaint?societyId={{societyID}}&limit=3&page=1&status=Pending",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								".netlify",
+								"functions",
+								"api",
+								"complaint"
+							],
+							"query": [
+								{
+									"key": "societyId",
+									"value": "{{societyID}}"
+								},
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "status",
+									"value": "Pending"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
