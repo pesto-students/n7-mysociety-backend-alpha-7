@@ -84,7 +84,7 @@ exports.signup = async (req, res) => {
             role: role,
             password: bcrypt.hashSync(password, 8),
             isConfirmed: false,
-            isActive: true,
+            isActive: false,
         });
 
         user.save(async (err, user) => {
