@@ -6,7 +6,6 @@
 ![Forks](https://img.shields.io/badge/FORKS-0-orange?style=for-the-badge&logo=appveyor)
 ![Stargazers](https://img.shields.io/badge/STARS-0-orange?style=for-the-badge&logo=appveyor)
 ![Issues](https://img.shields.io/badge/ISSUES-0%20OPEN-orange?style=for-the-badge&logo=appveyor)
-![Coverage](https://img.shields.io/badge/COVERAGE-28%25-orange?style=for-the-badge&logo=appveyor)
 
 ## Table of contents
 
@@ -16,7 +15,6 @@
 - [Features](#features)
 - [Project Status](#project-status)
 - [Sources](#sources)
-- [Screenshots](#screenshots)
 - [Contributors](#contributors)
 
 ## Introduction
