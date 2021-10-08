@@ -19,7 +19,7 @@
 
 ## Introduction
 
-<h3>My society web application enables society users to be in sync for all day-to-day activities towards society, such as Announcements, Events, complaints, etc in addition to other features such as FAQs, galleries of past festivals, and events held in society.</h3>
+My society web application enables society users to be in sync for all day-to-day activities towards society, such as Announcements, Events, complaints, etc in addition to other features such as FAQs, galleries of past festivals, and events held in society.
 
 -Live demo [_here_](https://mysocietyclient.netlify.app).
 
