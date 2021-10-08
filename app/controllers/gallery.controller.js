@@ -86,12 +86,15 @@ exports.createGallery = async function (req, res) {
                 }
                 const societyMembers = await utils.getSocietyMembers(societyId);
                 const emailBody = await EmailController.getHtml({
+                    clientURI: config.clientURI,
+                    buttonUrl: `${config.clientURI}gallery`,
+                    buttonText: "View Gallery",
                     body: "New Gallery is there in your society. Open MySociety app for more details.",
                 });
                 const mailOption = {
                     from: '"MySociety " <team.ninja.alpha7@gmail.com>',
                     to: societyMembers.join(","),
-                    subject: "New Event",
+                    subject: "New Galley Uploaded",
                     html: emailBody,
                 };
                 const sendMail = await EmailController.sendEmail(mailOption);
@@ -102,27 +105,6 @@ exports.createGallery = async function (req, res) {
                 return;
             });
         }
-        const societyMembers = await utils.getSocietyMembers(societyId);
-        const emailBody = await EmailController.getHtml("default", {
-            body: "New Gallery is there in your society. Open MySociety app for more details.",
-        });
-        const mailOption = {
-            from: '"MySociety " <team.ninja.alpha7@gmail.com>',
-            to: societyMembers.join(","),
-            subject: "New Event",
-            html: emailBody,
-        };
-        const sendMail = await EmailController.sendEmail(mailOption).catch(
-            (error) => {
-                res.status(500).send({ message: error });
-                return;
-            }
-        );
-        res.status(201).send({
-            message: GALLERY.RESPONSE.CREATED,
-            result: record,
-        });
-        return;
     } catch (error) {
         console.error(error);
         res.status(500).send({
